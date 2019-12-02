@@ -1,0 +1,14 @@
+{% extends 'data/base.html' %}
+{% block title %} | Hasil Pencarian Perguruan Tinggi {% endblock %}
+{% block content %}
+<div class="">
+    <!-- {% include 'data/_navbar.html' %} -->
+</div>
+    <h3>Hasil Pencarian Perguruan Tinggi</h3>
+
+    <p>
+      {% for a in z %}
+          {{ a.npsn }} - {{ a.nm_lemb }} - {{ a.nm_akred }} - {{ a.tgl_sk_akred_sp }}  <br>
+      {% endfor %}
+    </p>
+{% endblock %}

@@ -1,0 +1,62 @@
+<!-- {% load static %} -->
+      
+<!-- Navbar -->
+
+<!-- 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">  
+-->
+          <!-- <img src="{% static 'img/logo_dikbud.png' %}" class="logo" alt=""> -->
+          <!-- 
+          <img src="/data/templates/logo_dikbud.png" class="logo" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <ul class="navbar-nav">
+            <li 
+              {% if '/' == request.path %}
+                class="nav-item active mr-3"
+              {% else %}
+                class="nav-item mr-3"
+              {% endif %}
+            >
+              <a class="nav-link" href="{% url 'index' %}">Home</a>
+            </li>
+              
+            <li
+              {% if 'index_pt' in request.path %}
+                class="nav-item active mr-3"
+              {% else %}
+                class="nav-item mr-3"
+              {% endif %}
+            >
+              <a class="nav-link" href="{% url 'index_pt' %}">Daftar Akreditasi PT</a>
+            </li>
+
+            <li
+              {% if 'prodi' in request.path %}
+                class="nav-item active mr-3"
+              {% else %}
+                class="nav-item mr-3"
+              {% endif %}
+            >
+              <a class="nav-link" href="{% url 'prodi' %}">Daftar Akreditasi Prodi</a>
+            </li>
+
+            <li
+              {% if 'dosen' in request.path %}
+                class="nav-item active mr-3"
+              {% else %}
+                class="nav-item mr-3"
+              {% endif %}
+            >
+              <a class="nav-link" href="{% url 'dosen' %}">Daftar Dosen</a>
+            </li>
+
+        </div>
+      </div>
+    </nav>
+     -->

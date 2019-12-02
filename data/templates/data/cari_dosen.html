@@ -1,0 +1,31 @@
+{% extends 'data/base.html' %}
+{% block title %} | Pencarian Dosen {% endblock %}
+{% block content %}
+
+<form action="/cari_dosen/" method="get">
+{% csrf_token %}
+  <div class="form-group">
+    <label for="nm_sdm">Cari Dosen</label>
+    <input type="text" class="form-control" id="nm_sdm" name="nm_sdm" placeholder="Masukkan Nama Dosen">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script type="text/javascript">
+  $( function() {
+    $( "#nm_sdm").autocomplete({
+      source: "/auto_dosen/",
+      select: function (event, ui) { //item selected
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+</script>
+
+{% endblock %}

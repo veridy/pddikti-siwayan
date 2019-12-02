@@ -1,0 +1,31 @@
+{% extends 'data/base.html' %}
+{% block title %} | Pencarian Prodi {% endblock %}
+{% block content %}
+
+<form action="/cari_prodi/" method="get">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="kode_pt">Cari Program Studi</label>
+    <input type="text" class="form-control" id="kode_pt" name="kode_pt" placeholder="Masukkan Kode PT">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script type="text/javascript">
+  $( function() {
+    $( "#kode_pt").autocomplete({
+      source: "/auto/",
+      select: function (event, ui) { //item selected
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+</script>
+
+{% endblock %}

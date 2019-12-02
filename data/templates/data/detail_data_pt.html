@@ -1,0 +1,22 @@
+{% extends 'data/base.html' %}
+
+{% block content %}
+  <h4>Detail Perguruan Tinggi</h4>
+  <p>
+    {% for a in z %}
+    <p>
+    <h6> {{ a.nm_lemb }} </h6>
+        Kode PT : {{ a.npsn }} <br>
+        Provinsi PT : {{ a.provinsi_pt }} <br>
+        Kabupaten PT : {{ a.kabupaten_pt }} <br>
+        Kecamatan PT : {{ a.kecamatan_pt }} <br>
+        Nomor SK Pendirian : {{ a.sk_pendirian_sp }} <br>
+        Tanggal SK Pendirian : {{ a.tgl_sk_pendirian_sp }} <br>
+        Status Keaktifan : {{ a.stat_sp }} <br>
+        Nama Yayasan : {{ a.nm_yayasan }} <br>
+        Nomor Akta Yayasan : {{ a.no_akta }} <br>
+        Tanggal Akta : {{ a.tgl_akta }} <br>
+    <p>    
+    {% endfor %}
+  </p>
+{% endblock %}

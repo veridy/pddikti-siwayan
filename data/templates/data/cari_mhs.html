@@ -1,0 +1,31 @@
+{% extends 'data/base.html' %}
+{% block title %} | Pencarian Mahasiswa {% endblock %}
+{% block content %}
+
+<form action="/cari_mhs/" method="get">
+{% csrf_token %}
+  <div class="form-group">
+    <label for="nm_pd">Cari Mahasiswa</label>
+    <input type="text" class="form-control" id="nm_pd" name="nm_pd" placeholder="Masukkan Nama Mahasiswa">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script type="text/javascript">
+  $( function() {
+    $( "#nm_pd").autocomplete({
+      source: "/auto_mhs/",
+      select: function (event, ui) { //item selected
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+</script>
+
+{% endblock %}

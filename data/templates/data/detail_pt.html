@@ -1,0 +1,15 @@
+{% extends 'data/base.html' %}
+
+{% block content %}
+  <h4>Detail Perguruan Tinggi</h4>
+  <p>
+    {% for a in pt %}
+    <p>
+    <h6> {{ a.nm_lemb }} </h6>
+        Kode PT : {{ a.npsn }} <br>
+        Akreditasi : {{ a.nm_akred }} <br>
+        Tanggal SK Akreditasi : {{ a.tgl_sk_akred_sp }} <br>
+    <p>    
+    {% endfor %}
+  </p>
+{% endblock %}

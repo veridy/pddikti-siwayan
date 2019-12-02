@@ -1,0 +1,14 @@
+{% extends 'data/base.html' %}
+{% block title %} | Hasil Pencarian Dosen {% endblock %}
+{% block content %}
+<div class="">
+    <!-- {% include 'data/_navbar.html' %} -->
+</div>
+    <h3>Hasil Pencarian Dosen</h3>
+
+    <p>
+      {% for a in z %}
+          {{ a.nidn }} - {{ a.nm_sdm }} - {{ a.npsn }} - {{ a.kode_prodi }} - {{ a.tmt_sk_angkat }} - {{ a.nm_ikatan_kerja }} - {{ a.nm_stat_aktif }} - {{ a.nm_pangkat }} - {{ a.nm_jabfung }} - {{ a.pendidikan }} <br>
+      {% endfor %}
+    </p>
+{% endblock %}

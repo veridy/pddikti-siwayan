@@ -1,0 +1,207 @@
+tabel:
+data_mahasiswa
+nm_lemb >> ganti id_sp
+nm_prodi >> ganti id_sms
+ditambahin:
+plus field yg di query kemaren Ruteng
+
+
+models.py:
+SELECT
+dbo.v_peserta_didik.id_pd,
+dbo.v_peserta_didik.nm_pd,
+dbo.v_reg_pd.nipd,
+ref.status_mahasiswa.nm_stat_mhs,
+dbo.v_peserta_didik.nik,
+dbo.v_peserta_didik.tgl_lahir,
+dbo.v_peserta_didik.nm_ibu_kandung,
+dbo.v_reg_pd.mulai_smt,
+dbo.v_kuliah_mhs.id_smt,
+ref.semester.nm_smt,
+dbo.v_kuliah_mhs.sks_smt,
+dbo.v_kuliah_mhs.ips,
+dbo.v_kuliah_mhs.sks_total,
+dbo.v_kuliah_mhs.ipk,
+dbo.v_reg_pd.ipk as ipk_reg_pd,
+dbo.v_reg_pd.tgl_masuk_sp,
+dbo.v_reg_pd.tgl_keluar,
+ref.jenis_pendaftaran.nm_jns_daftar,
+ref.jenis_keluar.ket_keluar,
+ref.jenjang_pendidikan.nm_jenj_didik,
+dbo.v_reg_pd.no_seri_ijazah,
+dbo.v_reg_pd.sk_yudisium,
+dbo.v_reg_pd.tgl_sk_yudisium,
+dbo.v_satuan_pendidikan.npsn,
+dbo.v_satuan_pendidikan.nm_lemb,
+dbo.v_satuan_pendidikan.stat_sp,
+dbo.v_sms.nm_lemb as nm_prodi,
+dbo.v_sms.kode_prodi,
+dbo.v_kuliah_mhs.last_update
+
+FROM
+dbo.v_peserta_didik
+LEFT JOIN dbo.v_reg_pd ON dbo.v_peserta_didik.id_pd = dbo.v_reg_pd.id_pd
+LEFT JOIN dbo.v_kuliah_mhs ON dbo.v_reg_pd.id_reg_pd = dbo.v_kuliah_mhs.id_reg_pd
+LEFT JOIN dbo.v_sms ON dbo.v_reg_pd.id_sms = dbo.v_sms.id_sms
+LEFT JOIN dbo.v_satuan_pendidikan ON dbo.v_sms.id_sp = dbo.v_satuan_pendidikan.id_sp
+LEFT JOIN ref.jenis_pendaftaran ON dbo.v_reg_pd.id_jns_daftar = ref.jenis_pendaftaran.id_jns_daftar
+LEFT JOIN ref.jenis_keluar ON dbo.v_reg_pd.id_jns_keluar = ref.jenis_keluar.id_jns_keluar
+LEFT JOIN ref.semester ON dbo.v_kuliah_mhs.id_smt = ref.semester.id_smt
+LEFT JOIN ref.status_mahasiswa ON dbo.v_kuliah_mhs.id_stat_mhs = ref.status_mahasiswa.id_stat_mhs
+LEFT JOIN ref.jenjang_pendidikan ON dbo.v_sms.id_jenj_didik = ref.jenjang_pendidikan.id_jenj_didik
+
+WHERE
+dbo.v_peserta_didik.soft_delete = 0 AND
+dbo.v_reg_pd.soft_delete = 0 AND
+dbo.v_kuliah_mhs.soft_delete = 0 AND
+dbo.v_kuliah_mhs.id_smt BETWEEN '20101' AND '20182' AND
+dbo.v_satuan_pendidikan.npsn LIKE '083081'
+
+
+
+
+filter pertama PT
+
+TODO:
+Tabel PT
+
+Tabel Prodi
+
+
+
+65522 982-5 513-4 94B-9 A8F-F C3448 43028 F
+
+
+Mahasiswa bermasalah:
+- Mhs cuti/non-aktif sks_smt <> NULL or 0, sks_total = NULL or 0
+- Mhs aktif sks_smt = NULL, sks_total = NULL or 0
+- Status keluar = NULL and tgl_keluar = NULL and tgl_masuk > 14 smt >> warning kuning 10 smt, orange 12 smt, merah cuti => 3 
+
+
+>> jumlah sks cukup : S1 144 sks, sks_total pada sem 12 min 96 sks > merah
+
+
+
+
+
+
+27 Nov 2019
+============================
+Narsum Pak Novi (LLDIKTI 3)
+
+Perlu diterbitkan SK penyesuaian akreditasi BAN-PT
+
+Akreditasi
+------------------
+Akreditasi: untuk ambil data terkahir
+Select max
+Kalo ga pake distinct
+
+Dosen
+------------------
+Kalo mo ambil homebased dosen
+Keaktifan ptk >> homebase = 1
+
+Kebutuhan SD (Pak Gung Gria):
+- Tmt jabfung
+- Tmt pangkat
+
+Mahasiswa
+------------------
+Mahasiswa >> di tabel peserta didik
+
+Bagian mahasiswa, sistem dapat:
+PT menginput data nim dan prodi penerima bidikmisi >> kalo data tidak ada di PDDIKTI warning
+
+
+
+UMUM
+-----------------
+Dibuatkan ask or rekomendasi or langkah2 petunjuk untuk PT dapat membenahi/perbaikan berdasarkan permasalahan umumnya. PT dapat bertanya/konsultasi untuk tiap2 kasus, petugas sub bagian terkait akan menjawabnya.
+
+
+SELECT
+	dbo.v_satuan_pendidikan.id_sp,
+	dbo.v_satuan_pendidikan.npsn,
+	dbo.v_satuan_pendidikan.nm_lemb,
+CASE
+		
+		WHEN w.id_level_wil = 3 THEN
+		w2.nm_wil 
+		WHEN w.id_level_wil = 2 THEN
+		w1.nm_wil ELSE w.nm_wil 
+	END AS provinsi_pt,
+CASE
+		
+		WHEN w.id_level_wil = 3 THEN
+		w1.nm_wil ELSE w.nm_wil 
+	END AS kabupaten_pt,
+CASE
+		
+		WHEN w.id_level_wil = 3 THEN
+		w.nm_wil 
+	END AS kecamatan_pt,
+	dbo.v_satuan_pendidikan.jln,
+	dbo.v_satuan_pendidikan.sk_pendirian_sp,
+	dbo.v_satuan_pendidikan.tgl_sk_pendirian_sp,
+	dbo.v_satuan_pendidikan.stat_sp,
+	dbo.v_satuan_pendidikan.kode_pos,
+	dbo.v_yayasan.nm_lemb as nm_yayasan,
+	dbo.v_kepemilikan_sp.no_akta,
+	dbo.v_kepemilikan_sp.tgl_akta,
+	dbo.v_satuan_pendidikan.last_update,
+	dbo.v_satuan_pendidikan.soft_delete 
+FROM
+	dbo.v_satuan_pendidikan
+	LEFT JOIN dbo.v_kepemilikan_sp ON dbo.v_satuan_pendidikan.id_sp = dbo.v_kepemilikan_sp.id_sp
+	LEFT JOIN dbo.v_yayasan ON dbo.v_kepemilikan_sp.id_yayasan = dbo.v_yayasan.id_yayasan
+	LEFT JOIN ref.wilayah w ON v_satuan_pendidikan.id_wil= w.id_wil
+	LEFT JOIN ref.wilayah w1 ON w.id_induk_wilayah = w1.id_wil
+	LEFT JOIN ref.wilayah w2 ON w1.id_induk_wilayah = w2.id_wil 
+
+
+PRODI QUERY
+
+SELECT
+dbo.v_sms.id_sms,
+dbo.v_satuan_pendidikan.id_sp,
+dbo.v_satuan_pendidikan.npsn,
+dbo.v_satuan_pendidikan.nm_lemb,
+CASE
+		
+		WHEN w.id_level_wil = 3 THEN
+		w2.nm_wil 
+		WHEN w.id_level_wil = 2 THEN
+		w1.nm_wil ELSE w.nm_wil 
+	END AS provinsi_pt,
+CASE
+		
+		WHEN w.id_level_wil = 3 THEN
+		w1.nm_wil ELSE w.nm_wil 
+	END AS kabupaten_pt,
+CASE
+		
+		WHEN w.id_level_wil = 3 THEN
+		w.nm_wil 
+	END AS kecamatan_pt,
+dbo.v_satuan_pendidikan.stat_sp,
+dbo.v_satuan_pendidikan.soft_delete,
+dbo.v_pt_prodi.kode_prodi,
+dbo.v_pt_prodi.nm_prodi,
+dbo.v_pt_prodi.nm_jenj_didik,
+dbo.v_sms.sk_selenggara,
+dbo.v_pt_prodi.tgl_berdiri_prodi,
+dbo.v_pt_prodi.provinsi_prodi,
+dbo.v_pt_prodi.kab_kota_prodi,
+dbo.v_pt_prodi.kecamatan_prodi,
+dbo.v_pt_prodi.stat_prodi,
+dbo.v_pt_prodi.last_update
+
+FROM
+dbo.v_satuan_pendidikan
+LEFT JOIN ref.wilayah AS w ON dbo.v_satuan_pendidikan.id_wil = w.id_wil
+LEFT JOIN ref.wilayah AS w1 ON w.id_induk_wilayah = w1.id_wil
+LEFT JOIN ref.wilayah AS w2 ON w1.id_induk_wilayah = w2.id_wil
+LEFT JOIN dbo.v_pt_prodi ON dbo.v_satuan_pendidikan.id_sp = dbo.v_pt_prodi.id_sp
+LEFT JOIN dbo.v_sms ON dbo.v_pt_prodi.id_sms = dbo.v_sms.id_sms
+

@@ -1,0 +1,31 @@
+{% extends 'data/base.html' %}
+{% block title %} | Pencarian Perguruan Tinggi {% endblock %}
+{% block content %}
+
+<form action="/cari_pt/" method="get">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="npsn">Cari Perguruan Tinggi</label>
+    <input type="text" class="form-control" id="npsn" name="npsn" placeholder="Masukkan Kode PT">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script type="text/javascript">
+  $( function() {
+    $( "#npsn").autocomplete({
+      source: "/auto/",
+      select: function (event, ui) { //item selected
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+</script>
+
+{% endblock %}

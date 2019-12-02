@@ -1,0 +1,31 @@
+{% extends 'data/base.html' %}
+{% block title %} | Pencarian Data Perguruan Tinggi {% endblock %}
+{% block content %}
+
+<form action="/cari_data_pt/" method="get">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="nm_lemb">Cari Data Perguruan Tinggi</label>
+    <input type="text" class="form-control" id="nm_lemb" name="nm_lemb" placeholder="Masukkan Nama PT">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script type="text/javascript">
+  $( function() {
+    $( "#nm_lemb").autocomplete({
+      source: "/auto_data_pt/",
+      select: function (event, ui) { //item selected
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+</script>
+
+{% endblock %}
